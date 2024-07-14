@@ -9,11 +9,11 @@ fetchMyIP((error, ip) => {
   console.log("It worked! Returned IP:", ip);
 });
 
-fetchCoordsByIP("142.181.60.175", (error, data) => {
+fetchCoordsByIP("142.181.60.175", (error, coordinates) => {
   if (error) {
-    console.log("Failed to collect Coords: ", error);
+    console.log("Error with fetchCoordsByIP: ", error);
     return;
   }
 
-  console.log("Location of your IP address:", data);
-})
+  console.log("fetchCoordsByIP success! Returned coordinates:", coordinates);
+});
