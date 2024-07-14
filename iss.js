@@ -9,7 +9,7 @@ const fetchMyIP = function(callback) {
 
     // Handle non-successful server error:
     if (response.statusCode !== 200) {
-      callback(Error(`Status Code ${response.statusCode} when fetching IP. Response: ${body}`), null);
+      callback(`Status Code ${response.statusCode} when fetching IP. Response: ${body}`, null);
       return;
     }
 
@@ -18,6 +18,7 @@ const fetchMyIP = function(callback) {
     callback(null, IP);
   });
 };
+
 
 const fetchCoordsByIP = function(ip, callback) {
   needle.get((`http://ipwho.is/${ip}`), (error, reponse, body) => {
@@ -42,4 +43,22 @@ const fetchCoordsByIP = function(ip, callback) {
   });
 };
 
-module.exports = { fetchMyIP, fetchCoordsByIP };
+
+const fetchISSFlyOverTimes = function(coords, callback) {
+  const latAndLong = `?lat=${coords.latitude}&lon=${coords.longitude}`;
+
+  needle.get(`https://iss-flyover.herokuapp.com/json/${latAndLong}`, (error, response, body) => {
+    if (error) {
+      return callback(error, null);
+    }
+
+    if (response.statusCode !== 200) {
+      callback(`Server message says: "${body}"`);
+      return;
+    }
+
+    callback(null, body);
+  });
+};
+
+module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes };
