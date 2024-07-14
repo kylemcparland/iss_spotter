@@ -19,4 +19,19 @@ const fetchMyIP = function(callback) {
   });
 };
 
-module.exports = { fetchMyIP };
+const fetchCoordsByIP = function(ip, callback) {
+  needle.get((`http://ipwho.is/${ip}`), (error, response, body) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+    const location = {
+      latitude: body.latitude,
+      longitude: body.longitude
+    };
+    callback(null, location);
+
+  });
+};
+
+module.exports = { fetchMyIP, fetchCoordsByIP };
